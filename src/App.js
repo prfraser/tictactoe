@@ -65,32 +65,36 @@ class App extends Component {
       squares[i].innerText = "";
     }
 
-    if (result === "X") {
-      this.setState(prevState => ({
-        xWins: ++prevState.xWins,
-        board: Array(9).fill(""),
-        totalMoves: 0
-      }));
-    } else if (result === "O") {
-      this.setState(prevState => ({
-        oWins: ++prevState.oWins,
-        turn: "X",
-        board: Array(9).fill(""),
-        totalMoves: 0
-      }));
-    } else if (result === "draw") {
-      this.setState(prevState => ({
-        draws: ++prevState.draws,
-        turn: "X",
-        board: Array(9).fill(""),
-        totalMoves: 0
-      }));
-    } else {
-      this.setState(prevState => ({
-        turn: "X",
-        board: Array(9).fill(""),
-        totalMoves: 0
-      }));
+    switch (result) {
+      case "X":
+        this.setState(prevState => ({
+          xWins: ++prevState.xWins,
+          board: Array(9).fill(""),
+          totalMoves: 0
+        }));
+        break;
+      case "O":
+        this.setState(prevState => ({
+          oWins: ++prevState.oWins,
+          turn: "X",
+          board: Array(9).fill(""),
+          totalMoves: 0
+        }));
+        break;
+      case "draw":
+        this.setState(prevState => ({
+          draws: ++prevState.draws,
+          turn: "X",
+          board: Array(9).fill(""),
+          totalMoves: 0
+        }));
+        break;
+      default:
+        this.setState(prevState => ({
+          turn: "X",
+          board: Array(9).fill(""),
+          totalMoves: 0
+        }));
     }
   };
 
