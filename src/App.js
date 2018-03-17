@@ -20,35 +20,38 @@ class App extends Component {
       const newBoard = this.state.board.slice()
       newBoard[event.target.dataset.square] = this.state.turn
 
-      event.target.innerText = this.state.turn;
+      event.target.innerText = this.state.turn
 
       this.setState(prevState => ({
         turn: this.state.turn === 'X' ? 'O' : 'X',
         board: newBoard,
         totalMoves: ++prevState.totalMoves
-      }));
+      }))
     }
   }
 
   checkWinner = () => {
-    const moves = [[0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6], [0, 1, 2], [3, 4, 5], [6, 7, 8]];
-    const board = this.state.board;
-    for(let i = 0; i < moves.length; i++) {
-      if(board[moves[i][0]] && board[moves[i][0]] === board[moves[i][1]] && board[moves[i][1]] === board[moves[i][2]]) {
-        return board[moves[i][0]];
+    const moves = [[0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6], [0, 1, 2], [3, 4, 5], [6, 7, 8]]
+    const board = this.state.board
+    for (let i = 0; i < moves.length; i++) {
+      if (board[moves[i][0]] && board[moves[i][0]] === board[moves[i][1]] && board[moves[i][1]] === board[moves[i][2]]) {
+        return board[moves[i][0]]
       }
     }
-    if(this.state.totalMoves === 9) {
-      return 'draw';
+
+    if (this.state.totalMoves === 9) {
+      return 'draw'
     }
     return null
   }
 
   restartGame = (result) => {
     const squares = document.getElementsByClassName('square')
-    for(let i = 0; i < squares.length; i++) {
+
+    for (let i = 0; i < squares.length; i++) {
       squares[i].innerText = ''
     }
+
     if (result === 'X') {
       this.setState(prevState => ({
         xWins: ++prevState.xWins,
@@ -84,12 +87,12 @@ class App extends Component {
     let result = this.checkWinner();
     let winnerLine;
 
-    if(result === 'X') {
-        winnerLine = 'Match won by X'
+    if (result === 'X') {
+      winnerLine = 'Match won by X'
     } else if(result === 'O') {
-        winnerLine = 'Match won by O'
+      winnerLine = 'Match won by O'
     } else if(result === 'draw') {
-        winnerLine = 'Match is drawn'
+      winnerLine = 'Match is drawn'
     }
 
     return (
@@ -99,11 +102,9 @@ class App extends Component {
           <div id="scoreboard">
             <h3>Scoreboard</h3>
             <div id="scores">
-              Player X: { xWins } 
-              <br />
-              Player O: { oWins }
-              <br />
-              <p>Draws: { draws }</p>
+              <p>Player X: { xWins }</p>
+              <p>Player O: { oWins }</p>
+              <p>Draws:    { draws }</p>
             </div>
           </div>
           <div id="board" onClick={ (e) => this.clicked(e) }>
