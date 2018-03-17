@@ -1,5 +1,6 @@
 Tic Tac Toe project, made with react.
 
-Run npm install
-Run npm start
+Clone the repo
+Run yarn/npm install
+Run yarn/npm start
 App runs at http://localhost:3000/

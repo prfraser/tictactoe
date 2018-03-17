@@ -9,7 +9,8 @@ class App extends Component {
       board: Array(9).fill(''),
       totalMoves: 0,
       xWins: 0,
-      oWins: 0
+      oWins: 0,
+      draws: 0
     }
   }
 
@@ -43,20 +44,33 @@ class App extends Component {
     return null
   }
 
-  restartGame = () => {
+  restartGame = (result) => {
     const squares = document.getElementsByClassName('square')
     for(let i = 0; i < squares.length; i++) {
       squares[i].innerText = ''
     }
-    if (this.state.turn === 'O') {
+    if (result === 'X') {
       this.setState(prevState => ({
         xWins: ++prevState.xWins,
         board: Array(9).fill(''),
         totalMoves: 0
       }))
-    } else if (this.state.turn === 'X') {
+    } else if (result === 'O') {
       this.setState(prevState => ({
         oWins: ++prevState.oWins,
+        turn: 'X',
+        board: Array(9).fill(''),
+        totalMoves: 0
+      }))
+    } else if (result === 'draw') { 
+      this.setState(prevState => ({
+        draws: ++prevState.draws,
+        turn: 'X',
+        board: Array(9).fill(''),
+        totalMoves: 0
+      }))
+    } else {
+      this.setState(prevState => ({
         turn: 'X',
         board: Array(9).fill(''),
         totalMoves: 0
@@ -65,7 +79,7 @@ class App extends Component {
   }
 
   render() {
-    const { turn, xWins, oWins } = this.state
+    const { turn, xWins, oWins, draws } = this.state
         
     let result = this.checkWinner();
     let winnerLine;
@@ -79,32 +93,39 @@ class App extends Component {
     }
 
     return (
-      <div id="game">
+      <div id="wrapper">
         <div id="head">Welcome to Tic-Tac-Toe</div>
-        <div id="scoreboard">
-          Scoreboard
-          <br />
-          Player X: { xWins } 
-          <br />
-          Player O: { oWins }
+        <div id="game">
+          <div id="scoreboard">
+            <h3>Scoreboard</h3>
+            <div id="scores">
+              Player X: { xWins } 
+              <br />
+              Player O: { oWins }
+              <br />
+              <p>Draws: { draws }</p>
+            </div>
+          </div>
+          <div id="board" onClick={ (e) => this.clicked(e) }>
+            <div className="square" data-square="0"></div>
+            <div className="square" data-square="1"></div>
+            <div className="square" data-square="2"></div>
+            <div className="square" data-square="3"></div>
+            <div className="square" data-square="4"></div>
+            <div className="square" data-square="5"></div>
+            <div className="square" data-square="6"></div>
+            <div className="square" data-square="7"></div>
+            <div className="square" data-square="8"></div>
+          </div>
+          <div id="right-side">
+            { winnerLine ? 
+              <div id="status">{ winnerLine }</div> 
+              :
+              <div id="turn">Next turn: Player { turn }</div> 
+            }
+            <button id="restart-button" onClick={() => this.restartGame(result)}>Restart Game</button>
+          </div>
         </div>
-        { winnerLine ? 
-          <div id="status">{ winnerLine }</div> 
-          :
-          <div id="turn">Next turn: Player { turn }</div> 
-        }
-        <div id="board" onClick={ (e) => this.clicked(e) }>
-          <div className="square" data-square="0"></div>
-          <div className="square" data-square="1"></div>
-          <div className="square" data-square="2"></div>
-          <div className="square" data-square="3"></div>
-          <div className="square" data-square="4"></div>
-          <div className="square" data-square="5"></div>
-          <div className="square" data-square="6"></div>
-          <div className="square" data-square="7"></div>
-          <div className="square" data-square="8"></div>
-        </div>
-        { winnerLine && <button id="restart-button" onClick={this.restartGame}>Restart Game</button> }
       </div>
     );
   }
